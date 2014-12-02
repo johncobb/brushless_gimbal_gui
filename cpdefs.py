@@ -6,7 +6,8 @@ class CpDefs:
     #Server = "voidworx.com"
     Port = "1337"
     ServerFolder = "/pings"
-    SerialPort = "/dev/tty.usbserial-FTVTK7J0"
+    #SerialPort = "/dev/tty.usbserial-FTVTK7J0"
+    SerialPort = "/dev/cu.usbserial-FTVTK7J0"
     SerialBaudrate = 9600
 
     RfPort = "/dev/ttyO2"

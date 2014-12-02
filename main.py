@@ -1,103 +1,89 @@
-import Queue
+import sys
 import time
-import Tkinter
-import threading
-import random
-import Queue
-from cpserial import CpSerial
-from Tkinter import *
+from PyQt4 import QtCore
+from PyQt4.QtCore import *
+from PyQt4 import QtGui
+from cpserial import CpSerialThread
 
-def buttonExit():
-    # schedule the exit for 10ms
-    root.after(100, exitApp())
+from serial.tools import list_ports
+from gimbal_ui import Ui_FormMain
 
-    
-def exitApp():
-    serialThread.shutdown_thread()
-    while(serialThread.isAlive()):
-        continue
-    
-    exit()
 
-def serialDataReceived(data):
-    print 'Callback function modemDataReceived ', data
-    #return
+def load_form():
     
-    strvar_status.set(data.strip('\r\n'))
+    ports = list(list_ports.comports())
+    
+    for port in ports:
+        print port
+        f.listConnect.addItem(port[0])
+    
+    '''
+    for i in range(10):
+        f.listConnect.addItem('item %s' % (i+1))
+    '''
+
+def fnc_connect_clicked():
+    
+    print f.listConnect.currentText()
+    print f.thread.running
+    
+    if f.thread.running == True:
+        f.thread.stop_service()
+        f.buttonConnect.setText('Connect')
+    else:
+        f.thread.set_port(str(f.listConnect.currentText()))
+        f.buttonConnect.setText('Disconnect')
+        f.thread.start()
+
+        
+    #f.thread.stop_service()
+    print 'clicked'
+    pass
+
+def fnc_callback(data):
+    f.labelStatus.setText(data)
+    f.textStatus.append(data)
+    print data
     
     if data.count(':') < 2:
         return
     
-    strvar_labelX.set(data.split(':')[1])
-    strvar_labelY.set(data.split(':')[2])
+    f.labelX.setText(data.split(':')[1])
+    f.labelY.setText(data.split(':')[2])
     
-    # (hack) not the best way to edit a text box
-    #entry.delete(0, len(entry.get()))
-    #entry.insert(0, data)
     
+        
+if __name__ == "__main__":
+    app = QtGui.QApplication(sys.argv)
+    f = Ui_FormMain()
+    #new code
+    f.thread = CpSerialThread()
+    f.connect(f.thread, QtCore.SIGNAL('func_x(QString)'), fnc_callback)
+    f.connect(f.buttonConnect, QtCore.SIGNAL('clicked()'), fnc_connect_clicked)
+    #f.thread.start()
+    #f.scrollStatus.setWidget(f.labelStatus)
+    load_form()
+    f.show()
+    
+    
+    sys.exit(app.exec_())
 
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 400
-CANVAS_HEIGHT = 100
-FRAME_HEIGHT = 300
-    
-if __name__ == '__main__':
-    
 
-    
-    root = Tkinter.Tk()
-    root.resizable(width=FALSE, height=FALSE)
-    root.minsize(width=600, height=400)
-    root.geometry("600x400")
-    
-    # StringVar requires root to be declare
-    strvar_labelX = StringVar()
-    strvar_labelX.set('--.---')
-    strvar_labelY = StringVar()
-    strvar_labelY.set('--.---')
-    strvar_status = StringVar()
-    strvar_status.set('')
-    
-   
-    canvas = Canvas(root, width=SCREEN_WIDTH, height=CANVAS_HEIGHT)
-    canvas.grid(row=0, column=0)
-    
-    
-    line = canvas.create_line(0,50,SCREEN_WIDTH,50,fill='blue',tag='horizon')
-    
-    frame = Frame(root, width=SCREEN_WIDTH, height=FRAME_HEIGHT)
-    frame.grid(row=1,column=0)
-    
-    labelX = Label(frame, width=5, justify=LEFT, padx=2)
-    labelValX = Label(frame, width=5, justify=LEFT, padx=2, textvariable=strvar_labelX)
-    labelY = Label(frame, width=5, justify=LEFT, padx=2)
-    labelValY = Label(frame, width=5, justify=LEFT, padx=2, textvariable=strvar_labelY)
-    labelStatus = Label(frame, width=5, justify=LEFT, padx=2)
-    labelValStatus = Label(frame, width=20, justify=LEFT, padx=2, textvariable=strvar_status)
-    
-    labelX['text'] = 'Acc X:'
-    labelY['text'] = 'Acc Y:'
-    labelStatus['text'] = 'Status'
-    
-    labelX.grid(row=0, column=0)
-    labelValX.grid(row=0, column=1)
-    labelY.grid(row=0, column=2)
-    labelValY.grid(row=0, column=3)
-    labelStatus.grid(row=1, column=0)
-    labelValStatus.grid(row=1, column=1, columnspan=3)
-    
 
-    buttonExit = Button(frame, text='Exit', command=buttonExit, justify=LEFT)
-    buttonExit.grid(row=2,column=0)
-    
-    
-    
-    #entry = Entry(frame, bd=2)
-    #entry.grid(row=3,column=0)
 
-    serialThread = CpSerial(serialDataReceived)
-    serialThread.start()
-    root.mainloop()
-    
-    
- 
+            
+                
+
+
+'''
+#command
+pyuic4 filename.ui > filename.py
+# Copy to constructor due to editor bug
+
+class Ui_FormMain(QtGui.QWidget):
+    def __init__(self):
+        QtGui.QWidget.__init__(self)
+        self.setupUi(self)
+        
+    def setupUi(self, FormMain):
+'''
