@@ -2,9 +2,13 @@ from PyQt4 import QtGui, QtCore
 import sys
 import time
 import serial
+from serial.tools import list_ports
 from cpdefs import CpDefs
 
 class CpSerialThread(QtCore.QThread):
+    
+    received = pyqtSignal(QString)
+    
     def __init__(self, parent=None):
         QtCore.QThread.__init__(self)
         self.ser = serial.Serial(CpDefs.SerialPort, baudrate=CpDefs.SerialBaudrate, parity='N', stopbits=1, bytesize=8, xonxoff=0, rtscts=0)
@@ -16,7 +20,10 @@ class CpSerialThread(QtCore.QThread):
         self.sig_stop = True
         self.exiting = True
         self.wait()
-        
+    
+    def getPorts(self): 
+        return list(list_ports.comm_ports())
+    
     def set_port(self, port):
         # stop the service
         if(self.running):

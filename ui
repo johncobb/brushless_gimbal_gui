@@ -1,0 +1,1 @@
+pyuic4 ./console/console_view.ui > ./Console/console_view.py

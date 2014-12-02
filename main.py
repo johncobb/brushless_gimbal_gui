@@ -54,6 +54,7 @@ def fnc_callback(data):
     
         
 if __name__ == "__main__":
+    
     app = QtGui.QApplication(sys.argv)
     f = Ui_FormMain()
     #new code
