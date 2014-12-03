@@ -1,40 +1,96 @@
-from PyQt4 import QtGui, QtCore
 import sys
 import time
 import serial
+from PyQt4 import QtGui
+from PyQt4 import QtCore 
+from PyQt4.Qt import pyqtSignal, QString
 from serial.tools import list_ports
 from cpdefs import CpDefs
 
 class CpSerialThread(QtCore.QThread):
     
+    
     received = pyqtSignal(QString)
+    portStateChanged = pyqtSignal(QString)
+    portErrorOccured = pyqtSignal(QString)
     
     def __init__(self, parent=None):
         QtCore.QThread.__init__(self)
-        self.ser = serial.Serial(CpDefs.SerialPort, baudrate=CpDefs.SerialBaudrate, parity='N', stopbits=1, bytesize=8, xonxoff=0, rtscts=0)
         self.exiting = False
         self.sig_stop = False
+        self.sig_portchange = False
+        self.sig_closeport = False
+        self.port_name = ''
+        self.ser = serial.Serial()
+        self.initPort()
         self.running = False
         
     def __del__(self):
         self.sig_stop = True
         self.exiting = True
         self.wait()
+        
+    def initPort(self):
+        self.ser.port = CpDefs.SerialPort
+        self.ser.baudrate = CpDefs.SerialBaudrate
+        self.ser.parity = 'N'
+        self.ser.stopbits = 1
+        self.ser.bytesize = 8
+        self.ser.xonxoff = 0
+        self.ser.rtscts = 0
+        
     
     def getPorts(self): 
-        return list(list_ports.comm_ports())
+        return list(list_ports.comports())
     
-    def set_port(self, port):
-        # stop the service
-        if(self.running):
-            self.stop_service()
-            # wait for service to stop
-            while(self.running):
+    def changePort(self, port):
+        self.port_name = port
+        self.sig_portchange = True
+        print 'change port'
+        
+    def closePort(self):
+        self.sig_closeport = True
+        
+    def handle_close_port(self):
+        # reset the flag
+        self.sig_closeport = False
+        try:
+            if(self.ser.isOpen()):
+                self.ser.close()
+                self.portStateChanged.emit('port closed') 
+                    
+        except serial.SerialException, e:
+            print e
+        
+        
+    def handle_set_port(self):
+        
+        # reset the flag
+        self.sig_portchange = False
+
+        try:
+            # sanity check here
+            if(self.ser.isOpen()):
+                self.ser.close()
+                # allow port to settle
                 time.sleep(.1)
             
-        self.ser = serial.Serial(port, baudrate=CpDefs.SerialBaudrate, parity='N', stopbits=1, bytesize=8, xonxoff=0, rtscts=0)
-        #self.start_service()
-        
+            # change the port and reopen
+            self.ser.port = self.port_name
+            self.ser.open()
+            
+            self.portStateChanged.emit(self.port_name)
+        except serial.SerialException, e:
+            print e
+            self.portErrorOccured.emit(str(e)) 
+        except serial.SerialTimeoutException, eto:
+            print eto
+            self.portErrorOccured.emit(str(eto)) 
+        except Exception, ex:
+            print ex
+            self.portErrorOccured.emit(str(ex)) 
+
+
     def start_service(self):
         
         self.running = True
@@ -42,34 +98,41 @@ class CpSerialThread(QtCore.QThread):
         
         tmp_buffer = ''
         
-        if(self.ser.isOpen()):
-            self.ser.close()
-        
-        self.ser.open()
-        
         while self.sig_stop == False:
-            #print 'modem has data!!!'
-            tmp_char = self.ser.read(1)
-            if(tmp_char == '\r'):
 
-                #print 'received ', tmp_buffer
-                self.emit(QtCore.SIGNAL('func_x(QString)'), tmp_buffer.strip('\r\n'))
-                tmp_buffer= ""
-            else:
-                tmp_buffer += tmp_char
+            # handle changing of port
+            if(self.sig_portchange):
+                print 'change port'
+                self.handle_set_port()
+                tmp_buffer = ''
+            
+            # handle closing of port
+            if(self.sig_closeport):
+                print 'close port'
+                self.handle_close_port()
+                tmp_buffer = ''
+                
+            # wait for user to signal to open port
+            if (self.ser.isOpen() == False):
+                print 'port not open'
+                time.sleep(.5)
+                continue
+            
+            # handle incoming data
+            while (self.ser.inWaiting() > 0):
+                #print 'modem has data!!!'
+                tmp_char = self.ser.read(1)
+                if(tmp_char == '\r'):
+                    # signal data received
+                    self.received.emit(tmp_buffer.strip('\r\n'))
+                    tmp_buffer= ''
+                else:
+                    tmp_buffer += tmp_char
             
             time.sleep(.005)
             
         self.running = False
         
-        '''
-        i = 0
-        while self.sig_stop == False:
-            time.sleep(1)
-            print 'emitting...'
-            self.emit(QtCore.SIGNAL('func_x(QString)'), str(i))
-            i = i + 1
-        '''
         print 'service stopped!'
 
     def stop_service(self):
@@ -82,37 +145,3 @@ class CpSerialThread(QtCore.QThread):
         
     def run(self):
         self.start_service()
-                
-class MainApp(QtGui.QWidget):
-    def __init__(self, parent=None):
-        super(MainApp, self).__init__(parent)
-        
-        #Setup UI
-        self.layout = QtGui.QHBoxLayout(self)
-        self.label = QtGui.QLabel("Counter")
-        self.button = QtGui.QPushButton('Exit')
-        self.connect(self.button, QtCore.SIGNAL('clicked()'), self.buttonPressed)
-        self.setupUi()
-        # Setup Thread
-        self.thread = CpSerialThread()
-        self.connect(self.thread, QtCore.SIGNAL('func_x(QString)'), self.fnc_callback)
-        self.thread.start()
-        
-
-    def setupUi(self):
-        self.layout.addWidget(self.label)
-        self.layout.addWidget(self.button)
-    
-    def buttonPressed(self):
-        self.thread.stop_service()
-        
-    def fnc_callback(self, count):
-        self.label.setText(count)
-        print count        
-        
-if __name__ == '__main__':
-    
-    app = QtGui.QApplication(sys.argv)
-    form = MainApp()
-    form.show()
-    sys.exit(app.exec_())
