@@ -135,7 +135,10 @@ class CpSerialThread(QtCore.QThread):
                     tmp_buffer += tmp_char
             
             time.sleep(.005)
-            
+        
+        # shutdown the serial port
+        self.handle_close_port()   
+        # set flag 
         self.running = False
         
         print 'service stopped!'
@@ -143,10 +146,7 @@ class CpSerialThread(QtCore.QThread):
     def stop_service(self):
         self.sig_stop = True
         
-        if(self.ser.isOpen()):
-            self.ser.close()
-        print 'stopping service...'
-        
-        
     def run(self):
         self.start_service()
+        
+        
