@@ -1,4 +1,4 @@
-
+import time
 from PyQt4 import QtGui
 from PyQt4 import QtCore 
 from PyQt4.Qt import pyqtSignal, QString
@@ -19,7 +19,15 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
             self.serial.portErrorOccured.connect(self.handlePortError)
             self.setupComboPorts()
             self.buttonConnect.clicked.connect(self.handleButton)
-            
+    
+    def closeEvent(self, event):
+        self.serial.stop_service()
+        
+        while(self.serial.running):
+            print'waiting serial shutdown'
+            time.sleep(.5)
+        
+        
     def setupComboPorts(self):
         ports = self.serial.getPorts()
         for port in ports:
@@ -42,9 +50,7 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
     def handleData(self, data):
         #print data
         self.parseData(data)
-        pass
-        #self.textLog.append(text) 
-        self.textStatus.append(data)
+
         
     def handlePortStateChanged(self, msg):
         self.labelStatus.setText(msg)

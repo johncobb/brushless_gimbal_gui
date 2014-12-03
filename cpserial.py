@@ -100,7 +100,7 @@ class CpSerialThread(QtCore.QThread):
     def start_service(self):
         
         self.running = True
-        print 'starting service...'
+        print 'CpSerialThread starting service...'
         
         tmp_buffer = ''
         
@@ -141,7 +141,7 @@ class CpSerialThread(QtCore.QThread):
         # set flag 
         self.running = False
         
-        print 'service stopped!'
+        print 'CpSerialThread service stopped.'
 
     def stop_service(self):
         self.sig_stop = True

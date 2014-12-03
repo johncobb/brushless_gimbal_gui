@@ -6,7 +6,7 @@ from PyQt4 import QtGui
 from cpserial import CpSerialThread
 from console.console_ctl import ConsoleCtl
 
-     
+    
 if __name__ == "__main__":
     
     app = QtGui.QApplication(sys.argv)
@@ -15,8 +15,8 @@ if __name__ == "__main__":
     
     console = ConsoleCtl(serialThread)
     console.show()
+
     
-      
     sys.exit(app.exec_())
 
 

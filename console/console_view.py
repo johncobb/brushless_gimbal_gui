@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './console/console_view.ui'
 #
-# Created: Tue Dec  2 17:39:20 2014
+# Created: Wed Dec  3 15:50:58 2014
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -88,10 +88,10 @@ class Ui_ConsoleView(object):
         self.checkBox.setGeometry(QtCore.QRect(274, 120, 21, 20))
         self.checkBox.setObjectName(_fromUtf8("checkBox"))
         self.groupBox_2 = QtGui.QGroupBox(ConsoleView)
-        self.groupBox_2.setGeometry(QtCore.QRect(10, 0, 311, 51))
+        self.groupBox_2.setGeometry(QtCore.QRect(10, 0, 341, 51))
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.buttonConnect = QtGui.QPushButton(self.groupBox_2)
-        self.buttonConnect.setGeometry(QtCore.QRect(230, 18, 81, 30))
+        self.buttonConnect.setGeometry(QtCore.QRect(230, 18, 111, 30))
         self.buttonConnect.setObjectName(_fromUtf8("buttonConnect"))
         self.listConnect = QtGui.QComboBox(self.groupBox_2)
         self.listConnect.setGeometry(QtCore.QRect(10, 20, 221, 26))
