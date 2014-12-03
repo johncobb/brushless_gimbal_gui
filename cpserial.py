@@ -19,7 +19,7 @@ class CpSerialThread(QtCore.QThread):
         self.exiting = False
         self.sig_stop = False
         self.sig_portchange = False
-        self.sig_closeport = False
+        self.sig_portclose = False
         self.port_name = ''
         self.ser = serial.Serial()
         self.initPort()
@@ -49,18 +49,24 @@ class CpSerialThread(QtCore.QThread):
         print 'change port'
         
     def closePort(self):
-        self.sig_closeport = True
+        self.sig_portclose = True
         
     def handle_close_port(self):
         # reset the flag
-        self.sig_closeport = False
+        self.sig_portclose = False
         try:
             if(self.ser.isOpen()):
                 self.ser.close()
                 self.portStateChanged.emit('port closed') 
-                    
-        except serial.SerialException, e:
+        except serial.SerialException, se:
+            print se
+            self.portErrorOccured.emit(str(se)) 
+        except serial.SerialTimeoutException, sto:
+            print sto
+            self.portErrorOccured.emit(str(sto)) 
+        except Exception, e:
             print e
+            self.portErrorOccured.emit(str(e))
         
         
     def handle_set_port(self):
@@ -80,15 +86,15 @@ class CpSerialThread(QtCore.QThread):
             self.ser.open()
             
             self.portStateChanged.emit(self.port_name)
-        except serial.SerialException, e:
+        except serial.SerialException, se:
+            print se
+            self.portErrorOccured.emit(str(se)) 
+        except serial.SerialTimeoutException, sto:
+            print sto
+            self.portErrorOccured.emit(str(sto)) 
+        except Exception, e:
             print e
             self.portErrorOccured.emit(str(e)) 
-        except serial.SerialTimeoutException, eto:
-            print eto
-            self.portErrorOccured.emit(str(eto)) 
-        except Exception, ex:
-            print ex
-            self.portErrorOccured.emit(str(ex)) 
 
 
     def start_service(self):
@@ -107,14 +113,13 @@ class CpSerialThread(QtCore.QThread):
                 tmp_buffer = ''
             
             # handle closing of port
-            if(self.sig_closeport):
+            if(self.sig_portclose):
                 print 'close port'
                 self.handle_close_port()
                 tmp_buffer = ''
                 
             # wait for user to signal to open port
             if (self.ser.isOpen() == False):
-                print 'port not open'
                 time.sleep(.5)
                 continue
             
