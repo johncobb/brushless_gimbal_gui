@@ -8,6 +8,8 @@ from console.console_view import Ui_ConsoleView
 
 class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
     
+    PI = 3.14159265359
+    
     openPort = pyqtSignal(QString)
     
     def __init__(self, serial):
@@ -60,14 +62,56 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         self.listConnect.setEnabled(True)
         self.textStatus.append(msg)
         
-        
+   
     def parseData(self, data):
         #self.labelStatus.setText(data)
         self.textStatus.append(data)
         print data
         
-        if data.count(':') < 2:
-            return
+         # TODO: cleanup output from gimbal so parsing is easier
+        data = data.__str__().strip('roll/pitch').strip()
         
-        self.labelX.setText(data.split(':')[1])
-        self.labelY.setText(data.split(':')[2])
+        if data.count(':') < 14:
+            return
+        result = data.split(':')
+        
+        accelX = float(result[0])
+        accelY = float(result[1])
+        accelZ = float(result[2])
+        gravityX = float(result[3])
+        gravityY = float(result[4])
+        gravityZ = float(result[5])
+        magX = int(result[6])
+        magY = int(result[7])
+        magZ = int(result[8])
+        quatX = float(result[9])
+        quatY = float(result[10])
+        quatZ = float(result[11])
+        pitch = float(result[12])
+        roll = float(result[13])
+        yaw = float(result[14])
+
+ 
+        self.labelAccelX.setText(accelX.__str__())
+        self.labelAccelY.setText(accelY.__str__())
+        self.labelAccelZ.setText(accelZ.__str__())
+        self.labelGravityX.setText(gravityX.__str__())
+        self.labelGravityY.setText(gravityY.__str__())
+        self.labelGravityZ.setText(gravityZ.__str__())
+        self.labelMagX.setText(magX.__str__())
+        self.labelMagY.setText(magY.__str__())
+        self.labelMagZ.setText(magZ.__str__())
+        self.labelQuatX.setText(quatX.__str__())
+        self.labelQuatY.setText(quatY.__str__())
+        self.labelQuatZ.setText(quatZ.__str__())
+        self.labelPitch.setText(pitch.__str__())
+        self.labelRoll.setText(roll.__str__())
+        self.labelYaw.setText(yaw.__str__())
+        
+        
+        #roll = roll * self.PI/180.0
+        #pitch = pitch * self.PI/180.0
+        
+
+        #self.labelRoll.setText(roll.__str__())
+        #self.labelPitch.setText(pitch.__str__())
