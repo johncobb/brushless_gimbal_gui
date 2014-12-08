@@ -1,8 +1,14 @@
 import time
-from PyQt4 import QtGui
-from PyQt4 import QtCore 
+from PyQt4 import QtCore, QtGui, QtOpenGL
 from PyQt4.Qt import pyqtSignal, QString
+
 from console.console_view import Ui_ConsoleView
+from console.gl_widget  import GLWidget
+
+try:
+    from OpenGL import GL
+except ImportError:
+    print 'PyOpenGL must be installed to run this application'
 
 
 
@@ -21,6 +27,9 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
             self.serial.portErrorOccured.connect(self.handlePortError)
             self.setupComboPorts()
             self.buttonConnect.clicked.connect(self.handleButton)
+            
+            self.glWidget = GLWidget()
+            self.glLayout.addWidget(self.glWidget)
     
     def closeEvent(self, event):
         self.serial.stop_service()
@@ -115,3 +124,5 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
 
         #self.labelRoll.setText(roll.__str__())
         #self.labelPitch.setText(pitch.__str__())
+        
+        

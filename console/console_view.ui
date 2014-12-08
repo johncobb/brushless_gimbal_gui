@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>628</width>
-    <height>618</height>
+    <width>761</width>
+    <height>597</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -315,7 +315,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>580</y>
+     <y>560</y>
      <width>601</width>
      <height>16</height>
     </rect>
@@ -330,11 +330,11 @@
      <x>10</x>
      <y>220</y>
      <width>601</width>
-     <height>341</height>
+     <height>321</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
@@ -595,11 +595,22 @@
        <x>0</x>
        <y>10</y>
        <width>591</width>
-       <height>291</height>
+       <height>271</height>
       </rect>
      </property>
     </widget>
    </widget>
+  </widget>
+  <widget class="QWidget" name="formLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>70</y>
+     <width>121</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="glLayout"/>
   </widget>
  </widget>
  <resources/>

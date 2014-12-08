@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './console/console_view.ui'
 #
-# Created: Fri Dec  5 15:07:18 2014
+# Created: Mon Dec  8 16:12:45 2014
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_ConsoleView(object):
     def setupUi(self, ConsoleView):
         ConsoleView.setObjectName(_fromUtf8("ConsoleView"))
-        ConsoleView.resize(628, 618)
+        ConsoleView.resize(761, 597)
         self.label = QtGui.QLabel(ConsoleView)
         self.label.setGeometry(QtCore.QRect(10, 200, 56, 13))
         self.label.setObjectName(_fromUtf8("label"))
@@ -133,10 +133,10 @@ class Ui_ConsoleView(object):
         self.buttonWrite.setGeometry(QtCore.QRect(490, 200, 121, 32))
         self.buttonWrite.setObjectName(_fromUtf8("buttonWrite"))
         self.labelStatus = QtGui.QLabel(ConsoleView)
-        self.labelStatus.setGeometry(QtCore.QRect(10, 580, 601, 16))
+        self.labelStatus.setGeometry(QtCore.QRect(10, 560, 601, 16))
         self.labelStatus.setObjectName(_fromUtf8("labelStatus"))
         self.tabWidget = QtGui.QTabWidget(ConsoleView)
-        self.tabWidget.setGeometry(QtCore.QRect(10, 220, 601, 341))
+        self.tabWidget.setGeometry(QtCore.QRect(10, 220, 601, 321))
         self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName(_fromUtf8("tab_2"))
@@ -246,12 +246,18 @@ class Ui_ConsoleView(object):
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
         self.textStatus = QtGui.QTextEdit(self.tab)
-        self.textStatus.setGeometry(QtCore.QRect(0, 10, 591, 291))
+        self.textStatus.setGeometry(QtCore.QRect(0, 10, 591, 271))
         self.textStatus.setObjectName(_fromUtf8("textStatus"))
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
+        self.formLayoutWidget = QtGui.QWidget(ConsoleView)
+        self.formLayoutWidget.setGeometry(QtCore.QRect(620, 70, 121, 121))
+        self.formLayoutWidget.setObjectName(_fromUtf8("formLayoutWidget"))
+        self.glLayout = QtGui.QFormLayout(self.formLayoutWidget)
+        self.glLayout.setMargin(0)
+        self.glLayout.setObjectName(_fromUtf8("glLayout"))
 
         self.retranslateUi(ConsoleView)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(ConsoleView)
 
     def retranslateUi(self, ConsoleView):
