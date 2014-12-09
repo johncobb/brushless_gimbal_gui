@@ -1,4 +1,5 @@
 import time
+import math
 from PyQt4 import QtCore, QtGui, QtOpenGL
 from PyQt4.Qt import pyqtSignal, QString
 
@@ -76,9 +77,37 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         #self.labelStatus.setText(data)
         self.textStatus.append(data)
         print data
-        
+
          # TODO: cleanup output from gimbal so parsing is easier
-        data = data.__str__().strip('roll/pitch').strip()
+        data = data.__str__().strip('roll/pitch/yaw:').strip()
+        
+        #NEW TEMPORARY PARSE
+        if(data.count(':') <> 2):
+            return
+        
+        result = data.split(':')
+        
+        print result
+        
+        if math.isnan(float(result[0])):
+            return
+        if math.isnan(float(result[1])):
+            return
+        if math.isnan(float(result[2])):
+            return
+        
+        roll = float(result[0])
+        pitch = float(result[1])
+        yaw = float(result[2])
+        
+        
+        
+        
+        
+        self.glWidget.setXRotation(pitch*self.PI/180.0)
+        self.glWidget.setYRotation(roll*self.PI/180.0)
+        return
+        #END NEW TEMPORARY PARSE
         
         if data.count(':') < 14:
             return

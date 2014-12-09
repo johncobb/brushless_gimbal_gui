@@ -40,6 +40,8 @@ class GLWidget(QtOpenGL.QGLWidget):
             self.xRot = angle
             self.xRotationChanged.emit(angle)
             self.updateGL()
+            
+        #print 'x angle:', angle
 
     def setYRotation(self, angle):
         angle = self.normalizeAngle(angle)
@@ -65,7 +67,7 @@ class GLWidget(QtOpenGL.QGLWidget):
     def paintGL(self):
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         GL.glLoadIdentity()
-        GL.glTranslated(0.0, 0.0, -10.0)
+        GL.glTranslated(0.0, 0.0, -5.0)
         GL.glRotated(self.xRot / 16.0, 1.0, 0.0, 0.0)
         GL.glRotated(self.yRot / 16.0, 0.0, 1.0, 0.0)
         GL.glRotated(self.zRot / 16.0, 0.0, 0.0, 1.0)
@@ -104,7 +106,11 @@ class GLWidget(QtOpenGL.QGLWidget):
         GL.glNewList(genList, GL.GL_COMPILE)
 
         GL.glBegin(GL.GL_QUADS)
+        
+        #self.quad(0,0,0,0.1,0.1,0.1,0.1,0)
 
+        
+        '''
         x1 = +0.06
         y1 = -0.14
         x2 = +0.14
@@ -144,11 +150,86 @@ class GLWidget(QtOpenGL.QGLWidget):
 
             self.extrude(x6, y6, x7, y7)
             self.extrude(x8, y8, x5, y5)
-
+        '''
+        
+        '''
+        GL.glColor3f(0.0,1.0,0.0)
+        GL.glVertex3f( 1.0, 1.0,-1.0)
+        GL.glVertex3f(-1.0, 1.0,-1.0)
+        GL.glVertex3f(-1.0, 1.0, 1.0)
+        GL.glVertex3f( 1.0, 1.0, 1.0) 
+ 
+        GL.glColor3f(1.0,0.0,0.0)
+        GL.glVertex3f( 1.0,-1.0, 1.0)
+        GL.glVertex3f(-1.0,-1.0, 1.0)
+        GL.glVertex3f(-1.0,-1.0,-1.0)
+        GL.glVertex3f( 1.0,-1.0,-1.0) 
+ 
+        GL.glColor3f(0.0,1.0,0.0)
+        GL.glVertex3f( 1.0, 1.0, 1.0)
+        GL.glVertex3f(-1.0, 1.0, 1.0)
+        GL.glVertex3f(-1.0,-1.0, 1.0)
+        GL.glVertex3f( 1.0,-1.0, 1.0)
+ 
+        GL.glColor3f(1.0,1.0,0.0)
+        GL.glVertex3f( 1.0,-1.0,-1.0)
+        GL.glVertex3f(-1.0,-1.0,-1.0)
+        GL.glVertex3f(-1.0, 1.0,-1.0)
+        GL.glVertex3f( 1.0, 1.0,-1.0)
+ 
+        GL.glColor3f(0.0,0.0,1.0)
+        GL.glVertex3f(-1.0, 1.0, 1.0) 
+        GL.glVertex3f(-1.0, 1.0,-1.0)
+        GL.glVertex3f(-1.0,-1.0,-1.0) 
+        GL.glVertex3f(-1.0,-1.0, 1.0) 
+ 
+        GL.glColor3f(1.0,0.0,1.0)
+        GL.glVertex3f( 1.0, 1.0,-1.0) 
+        GL.glVertex3f( 1.0, 1.0, 1.0)
+        GL.glVertex3f( 1.0,-1.0, 1.0)
+        GL.glVertex3f( 1.0,-1.0,-1.0)
+        '''
+        
+        GL.glColor3f(0.0,1.0,0.0)
+        GL.glVertex3f( 0.2, 0.2,-0.2)
+        GL.glVertex3f(-0.2, 0.2,-0.2)
+        GL.glVertex3f(-0.2, 0.2, 0.2)
+        GL.glVertex3f( 0.2, 0.2, 0.2) 
+ 
+        GL.glColor3f(1.0,0.0,0.0)
+        GL.glVertex3f( 0.2,-0.2, 0.2)
+        GL.glVertex3f(-0.2,-0.2, 0.2)
+        GL.glVertex3f(-0.2,-0.2,-0.2)
+        GL.glVertex3f( 0.2,-0.2,-0.2) 
+ 
+        GL.glColor3f(0.0,1.0,0.0)
+        GL.glVertex3f( 0.2, 0.2, 0.2)
+        GL.glVertex3f(-0.2, 0.2, 0.2)
+        GL.glVertex3f(-0.2,-0.2, 0.2)
+        GL.glVertex3f( 0.2,-0.2, 0.2)
+ 
+        GL.glColor3f(1.0,1.0,0.0)
+        GL.glVertex3f( 0.2,-0.2,-0.2)
+        GL.glVertex3f(-0.2,-0.2,-0.2)
+        GL.glVertex3f(-0.2, 0.2,-0.2)
+        GL.glVertex3f( 0.2, 0.2,-0.2)
+ 
+        GL.glColor3f(0.0,0.0,1.0)
+        GL.glVertex3f(-0.2, 0.2, 0.2) 
+        GL.glVertex3f(-0.2, 0.2,-0.2)
+        GL.glVertex3f(-0.2,-0.2,-0.2) 
+        GL.glVertex3f(-0.2,-0.2, 0.2) 
+ 
+        GL.glColor3f(1.0,0.0,1.0)
+        GL.glVertex3f( 0.2, 0.2,-0.2) 
+        GL.glVertex3f( 0.2, 0.2, 0.2)
+        GL.glVertex3f( 0.2,-0.2, 0.2)
+        GL.glVertex3f( 0.2,-0.2,-0.2)
         GL.glEnd()
         GL.glEndList()
 
         return genList
+
 
     def quad(self, x1, y1, x2, y2, x3, y3, x4, y4):
         self.qglColor(self.trolltechGreen)
@@ -170,6 +251,7 @@ class GLWidget(QtOpenGL.QGLWidget):
         GL.glVertex3d(x2, y2, +0.05)
         GL.glVertex3d(x2, y2, -0.05)
         GL.glVertex3d(x1, y1, -0.05)
+        
 
     def normalizeAngle(self, angle):
         while angle < 0:
