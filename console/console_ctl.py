@@ -79,7 +79,7 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         print data
 
          # TODO: cleanup output from gimbal so parsing is easier
-        data = data.__str__().strip('roll/pitch/yaw:').strip()
+        data = data.__str__().strip('roll/pitch/yaw').strip()
         
         #NEW TEMPORARY PARSE
         if(data.count(':') <> 2):
@@ -101,11 +101,15 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         yaw = float(result[2])
         
         
+        self.glWidget.setXRotation(pitch)
+        self.glWidget.setZRotation(roll)
+        self.glWidget.setYRotation(yaw)
         
         
+        #self.glWidget.setXRotation(pitch*self.PI/180.0)
+        #self.glWidget.setYRotation(roll*self.PI/180.0)
         
-        self.glWidget.setXRotation(pitch*self.PI/180.0)
-        self.glWidget.setYRotation(roll*self.PI/180.0)
+        #self.glWidget.setYRotation(pitch)
         return
         #END NEW TEMPORARY PARSE
         

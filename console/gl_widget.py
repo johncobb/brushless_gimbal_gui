@@ -35,7 +35,7 @@ class GLWidget(QtOpenGL.QGLWidget):
         return QtCore.QSize(400, 400)
 
     def setXRotation(self, angle):
-        angle = self.normalizeAngle(angle)
+        #angle = self.normalizeAngle(angle)
         if angle != self.xRot:
             self.xRot = angle
             self.xRotationChanged.emit(angle)
@@ -44,14 +44,14 @@ class GLWidget(QtOpenGL.QGLWidget):
         #print 'x angle:', angle
 
     def setYRotation(self, angle):
-        angle = self.normalizeAngle(angle)
+        #angle = self.normalizeAngle(angle)
         if angle != self.yRot:
             self.yRot = angle
             self.yRotationChanged.emit(angle)
             self.updateGL()
 
     def setZRotation(self, angle):
-        angle = self.normalizeAngle(angle)
+        #angle = self.normalizeAngle(angle)
         if angle != self.zRot:
             self.zRot = angle
             self.zRotationChanged.emit(angle)
@@ -68,9 +68,9 @@ class GLWidget(QtOpenGL.QGLWidget):
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         GL.glLoadIdentity()
         GL.glTranslated(0.0, 0.0, -5.0)
-        GL.glRotated(self.xRot / 16.0, 1.0, 0.0, 0.0)
-        GL.glRotated(self.yRot / 16.0, 0.0, 1.0, 0.0)
-        GL.glRotated(self.zRot / 16.0, 0.0, 0.0, 1.0)
+        GL.glRotated(self.xRot, 1.0, 0.0, 0.0)
+        GL.glRotated(self.yRot, 0.0, 1.0, 0.0)
+        GL.glRotated(self.zRot, 0.0, 0.0, 1.0)
         GL.glCallList(self.object)
 
     def resizeGL(self, width, height):
