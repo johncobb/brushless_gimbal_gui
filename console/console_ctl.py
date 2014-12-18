@@ -99,20 +99,19 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         roll = float(result[0])
         pitch = float(result[1])
         yaw = float(result[2])
-        
+
+        self.labelPitch.setText(pitch.__str__())
+        self.labelRoll.setText(roll.__str__())
+        self.labelYaw.setText(yaw.__str__())
         
         self.glWidget.setXRotation(pitch)
         self.glWidget.setZRotation(roll)
-        self.glWidget.setYRotation(yaw)
+        #self.glWidget.setYRotation(yaw)
+
         
-        
-        #self.glWidget.setXRotation(pitch*self.PI/180.0)
-        #self.glWidget.setYRotation(roll*self.PI/180.0)
-        
-        #self.glWidget.setYRotation(pitch)
-        return
-        #END NEW TEMPORARY PARSE
-        
+
+
+        '''
         if data.count(':') < 14:
             return
         result = data.split(':')
@@ -149,13 +148,6 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         self.labelPitch.setText(pitch.__str__())
         self.labelRoll.setText(roll.__str__())
         self.labelYaw.setText(yaw.__str__())
-        
-        
-        #roll = roll * self.PI/180.0
-        #pitch = pitch * self.PI/180.0
-        
-
-        #self.labelRoll.setText(roll.__str__())
-        #self.labelPitch.setText(pitch.__str__())
+        '''
         
         

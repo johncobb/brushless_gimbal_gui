@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './console/console_view.ui'
 #
-# Created: Tue Dec  9 10:13:38 2014
+# Created: Mon Dec 15 15:26:41 2014
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_ConsoleView(object):
     def setupUi(self, ConsoleView):
         ConsoleView.setObjectName(_fromUtf8("ConsoleView"))
-        ConsoleView.resize(629, 597)
+        ConsoleView.resize(799, 595)
         self.label = QtGui.QLabel(ConsoleView)
         self.label.setGeometry(QtCore.QRect(10, 200, 56, 13))
         self.label.setObjectName(_fromUtf8("label"))
@@ -127,16 +127,16 @@ class Ui_ConsoleView(object):
         self.buttonCalibGyro.setGeometry(QtCore.QRect(130, 110, 121, 32))
         self.buttonCalibGyro.setObjectName(_fromUtf8("buttonCalibGyro"))
         self.buttonRead = QtGui.QPushButton(ConsoleView)
-        self.buttonRead.setGeometry(QtCore.QRect(370, 200, 121, 32))
+        self.buttonRead.setGeometry(QtCore.QRect(470, 200, 121, 32))
         self.buttonRead.setObjectName(_fromUtf8("buttonRead"))
         self.buttonWrite = QtGui.QPushButton(ConsoleView)
-        self.buttonWrite.setGeometry(QtCore.QRect(490, 200, 121, 32))
+        self.buttonWrite.setGeometry(QtCore.QRect(580, 200, 121, 32))
         self.buttonWrite.setObjectName(_fromUtf8("buttonWrite"))
         self.labelStatus = QtGui.QLabel(ConsoleView)
         self.labelStatus.setGeometry(QtCore.QRect(10, 560, 601, 16))
         self.labelStatus.setObjectName(_fromUtf8("labelStatus"))
         self.tabWidget = QtGui.QTabWidget(ConsoleView)
-        self.tabWidget.setGeometry(QtCore.QRect(10, 220, 601, 321))
+        self.tabWidget.setGeometry(QtCore.QRect(10, 220, 781, 361))
         self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName(_fromUtf8("tab_2"))
@@ -243,7 +243,7 @@ class Ui_ConsoleView(object):
         self.labelYaw.setObjectName(_fromUtf8("labelYaw"))
         self.gridLayout_4.addWidget(self.labelYaw, 2, 1, 1, 1)
         self.formLayoutWidget = QtGui.QWidget(self.tab_2)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(330, 60, 251, 221))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(330, 50, 351, 281))
         self.formLayoutWidget.setObjectName(_fromUtf8("formLayoutWidget"))
         self.glLayout = QtGui.QFormLayout(self.formLayoutWidget)
         self.glLayout.setMargin(0)
