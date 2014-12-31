@@ -28,7 +28,7 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
             self.serial.portErrorOccured.connect(self.handlePortError)
             self.setupComboPorts()
             self.buttonConnect.clicked.connect(self.handleButton)
-            
+            self.buttonReset.clicked.connect(self.handleResetButton)
             self.glWidget = GLWidget()
             self.glLayout.addWidget(self.glWidget)
     
@@ -44,7 +44,12 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         ports = self.serial.getPorts()
         for port in ports:
             self.listConnect.addItem(port[0])
-            
+    
+    def handleResetButton(self):
+        self.glWidget.setXRotation(0)
+        self.glWidget.setYRotation(0)
+        self.glWidget.setZRotation(0)
+        
     def handleButton(self):
 
         # if we're open then we disconnect and setup ui for connecting

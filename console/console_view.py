@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './console/console_view.ui'
 #
-# Created: Mon Dec 15 15:26:41 2014
+# Created: Fri Dec 19 15:18:48 2014
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -248,6 +248,9 @@ class Ui_ConsoleView(object):
         self.glLayout = QtGui.QFormLayout(self.formLayoutWidget)
         self.glLayout.setMargin(0)
         self.glLayout.setObjectName(_fromUtf8("glLayout"))
+        self.buttonReset = QtGui.QPushButton(self.tab_2)
+        self.buttonReset.setGeometry(QtCore.QRect(600, 20, 81, 32))
+        self.buttonReset.setObjectName(_fromUtf8("buttonReset"))
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
@@ -309,6 +312,7 @@ class Ui_ConsoleView(object):
         self.label_22.setText(_translate("ConsoleView", "Pitch:", None))
         self.label_23.setText(_translate("ConsoleView", "Yaw:", None))
         self.labelYaw.setText(_translate("ConsoleView", "--.----", None))
+        self.buttonReset.setText(_translate("ConsoleView", "Reset", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("ConsoleView", "Detail", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("ConsoleView", "Log", None))
 
