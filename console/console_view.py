@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './console/console_view.ui'
 #
-# Created: Fri Dec 19 15:18:48 2014
+# Created: Mon Jan  5 11:20:56 2015
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -258,6 +258,19 @@ class Ui_ConsoleView(object):
         self.textStatus.setGeometry(QtCore.QRect(0, 10, 581, 271))
         self.textStatus.setObjectName(_fromUtf8("textStatus"))
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
+        self.groupBox_4 = QtGui.QGroupBox(ConsoleView)
+        self.groupBox_4.setGeometry(QtCore.QRect(620, 130, 131, 61))
+        self.groupBox_4.setObjectName(_fromUtf8("groupBox_4"))
+        self.buttonPlus = QtGui.QPushButton(self.groupBox_4)
+        self.buttonPlus.setGeometry(QtCore.QRect(100, 30, 31, 21))
+        self.buttonPlus.setObjectName(_fromUtf8("buttonPlus"))
+        self.buttonMinus = QtGui.QPushButton(self.groupBox_4)
+        self.buttonMinus.setGeometry(QtCore.QRect(60, 30, 31, 21))
+        self.buttonMinus.setObjectName(_fromUtf8("buttonMinus"))
+        self.labelFilterAlpha = QtGui.QLabel(self.groupBox_4)
+        self.labelFilterAlpha.setGeometry(QtCore.QRect(0, 30, 51, 23))
+        self.labelFilterAlpha.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.labelFilterAlpha.setObjectName(_fromUtf8("labelFilterAlpha"))
 
         self.retranslateUi(ConsoleView)
         self.tabWidget.setCurrentIndex(0)
@@ -315,4 +328,8 @@ class Ui_ConsoleView(object):
         self.buttonReset.setText(_translate("ConsoleView", "Reset", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("ConsoleView", "Detail", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("ConsoleView", "Log", None))
+        self.groupBox_4.setTitle(_translate("ConsoleView", "Complimentry Filter:", None))
+        self.buttonPlus.setText(_translate("ConsoleView", "+", None))
+        self.buttonMinus.setText(_translate("ConsoleView", "-", None))
+        self.labelFilterAlpha.setText(_translate("ConsoleView", "0.00", None))
 

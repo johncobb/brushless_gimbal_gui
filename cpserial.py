@@ -1,6 +1,7 @@
 import sys
 import time
 import serial
+import Queue
 from PyQt4 import QtGui
 from PyQt4 import QtCore 
 from PyQt4.Qt import pyqtSignal, QString
@@ -24,6 +25,7 @@ class CpSerialThread(QtCore.QThread):
         self.ser = serial.Serial()
         self.initPort()
         self.running = False
+        self.commands = Queue.Queue(5)
         
     def __del__(self):
         self.sig_stop = True
@@ -96,7 +98,14 @@ class CpSerialThread(QtCore.QThread):
             print e
             self.portErrorOccured.emit(str(e)) 
 
-
+    def enqueue_command(self, cmd):
+        try:
+            self.commands.put(cmd, block=True, timeout=1)
+        except:
+            self.__lock.acquire()
+            print "The queue is full"
+            self.__release()
+            
     def start_service(self):
         
         self.running = True
@@ -121,6 +130,13 @@ class CpSerialThread(QtCore.QThread):
             # wait for user to signal to open port
             if (self.ser.isOpen() == False):
                 time.sleep(.5)
+                continue
+            
+            if (self.commands.qsize() > 0):
+                ser_cmd = self.commands.get(True)
+                self.commands.task_done()
+                self.ser.write(ser_cmd)
+                #self.modem_send(modem_command)
                 continue
             
             # handle incoming data

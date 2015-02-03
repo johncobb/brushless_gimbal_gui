@@ -27,8 +27,11 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
             self.serial.portStateChanged.connect(self.handlePortStateChanged)
             self.serial.portErrorOccured.connect(self.handlePortError)
             self.setupComboPorts()
-            self.buttonConnect.clicked.connect(self.handleButton)
+            self.buttonConnect.clicked.connect(self.handleConnectButton)
             self.buttonReset.clicked.connect(self.handleResetButton)
+            self.buttonWrite.clicked.connect(self.handleWriteButton)
+            self.buttonPlus.clicked.connect(self.handlePlusButton)
+            self.buttonMinus.clicked.connect(self.handleMinusButton)
             self.glWidget = GLWidget()
             self.glLayout.addWidget(self.glWidget)
     
@@ -50,7 +53,16 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         self.glWidget.setYRotation(0)
         self.glWidget.setZRotation(0)
         
-    def handleButton(self):
+    def handleWriteButton(self):
+        self.serial.enqueue_command("hello world")
+        
+    def handlePlusButton(self):
+        self.serial.enqueue_command("+")
+        
+    def handleMinusButton(self):
+        self.serial.enqueue_command("-")
+        
+    def handleConnectButton(self):
 
         # if we're open then we disconnect and setup ui for connecting
         if(self.serial.ser.isOpen()):
@@ -82,6 +94,12 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         #self.labelStatus.setText(data)
         self.textStatus.append(data)
         print data
+        
+        if(data.count('flt_alpha:') == 1):
+            flt_alpha = float(data.split(':')[1])
+            if math.isnan(flt_alpha):
+                return
+            self.labelFilterAlpha.setText("{:.2f}".format(flt_alpha))
 
          # TODO: cleanup output from gimbal so parsing is easier
         data = data.__str__().strip('roll/pitch/yaw').strip()
