@@ -32,9 +32,43 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
             self.buttonWrite.clicked.connect(self.handleWriteButton)
             self.buttonPlus.clicked.connect(self.handlePlusButton)
             self.buttonMinus.clicked.connect(self.handleMinusButton)
+            
+            # ACTIONS
+            self.spin_pitch_q_angle.valueChanged[str].connect(self.pitch_q_angle_onChanged)
+            self.spin_pitch_q_bias.valueChanged[str].connect(self.pitch_q_bias_onChanged)
+            self.spin_roll_q_angle.valueChanged[str].connect(self.roll_q_angle_onChanged)
+            self.spin_roll_q_bias.valueChanged[str].connect(self.roll_q_bias_onChanged)
+        
+        
             self.glWidget = GLWidget()
             self.glLayout.addWidget(self.glWidget)
     
+    
+    def pitch_q_angle_onChanged(self, val):
+        
+        pitch_q_angle = str(self.spin_pitch_q_angle.value())
+        
+        self.serial.enqueue_command("pqa=%s" % (pitch_q_angle))
+        
+    def pitch_q_bias_onChanged(self, val):
+        
+        pitch_q_bias = str(self.spin_pitch_q_bias.value())
+        
+        self.serial.enqueue_command("pqb=%s" % (pitch_q_bias))
+        
+    def roll_q_angle_onChanged(self, val):
+        
+        roll_q_angle = str(self.spin_roll_q_angle.value())
+        
+        self.serial.enqueue_command("rqa=%s" % (roll_q_angle))
+        
+    def roll_q_bias_onChanged(self, val):
+        
+        roll_q_bias = str(self.spin_roll_q_bias.value())
+        
+        self.serial.enqueue_command("rqb=%s" % (roll_q_bias))
+        
+        
     def closeEvent(self, event):
         self.serial.stop_service()
         
