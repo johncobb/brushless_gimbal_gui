@@ -48,25 +48,25 @@ class ConsoleCtl(QtGui.QMainWindow, Ui_ConsoleView):
         
         pitch_q_angle = str(self.spin_pitch_q_angle.value())
         
-        self.serial.enqueue_command("pitch_q_angle %s" % (pitch_q_angle))
+        self.serial.enqueue_command("pitch_q_angle %s\r" % (pitch_q_angle))
         
     def pitch_q_bias_onChanged(self, val):
         
         pitch_q_bias = str(self.spin_pitch_q_bias.value())
         
-        self.serial.enqueue_command("pitch_q_bias=%s" % (pitch_q_bias))
+        self.serial.enqueue_command("pitch_q_bias=%s\r" % (pitch_q_bias))
         
     def roll_q_angle_onChanged(self, val):
         
         roll_q_angle = str(self.spin_roll_q_angle.value())
         
-        self.serial.enqueue_command("roll_q_angle=%s" % (roll_q_angle))
+        self.serial.enqueue_command("roll_q_angle=%s\r" % (roll_q_angle))
         
     def roll_q_bias_onChanged(self, val):
         
         roll_q_bias = str(self.spin_roll_q_bias.value())
         
-        self.serial.enqueue_command("roll_q_bias=%s" % (roll_q_bias))
+        self.serial.enqueue_command("roll_q_bias=%s\r" % (roll_q_bias))
         
         
     def closeEvent(self, event):
